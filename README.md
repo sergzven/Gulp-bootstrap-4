@@ -1,4 +1,4 @@
-## За основу взят проект Александра Мальцева (itchief) https://itchief.ru/lessons/bootstrap/build-project-with-gulp (версия 2.2.2)
+## За основу взят проект Александра Мальцева (itchief) [Gulp project bootstrap 4](https://itchief.ru/lessons/bootstrap/build-project-with-gulp) (версия 2.2.2)
 
 ## Окружение для разработки веб-проектов на Bootstrap 4
 Готовое окружение для разработки фронтенд составляющей сайтов и интерфейсов админок на Bootstrap 4.
