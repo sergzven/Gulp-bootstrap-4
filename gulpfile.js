@@ -1,17 +1,5 @@
 'use strict';
 
-/* параметры для gulp-autoprefixer */
-var autoprefixerList = [
-    'Chrome >= 45',
-    'Firefox ESR',
-    'Edge >= 12',
-    'Explorer >= 10',
-    'iOS >= 9',
-    'Safari >= 9',
-    'Android >= 4.4',
-    'Opera >= 30'
-];
-
 /* пути к исходным файлам (src), к готовым файлам (build), а также к тем, за изменениями которых нужно наблюдать (watch) */
 var path = {
     build: {
@@ -22,8 +10,8 @@ var path = {
         fonts:  'build/fonts/'
     },
     src: {
-        html:   'src/*.html',
-        js:     'src/js/main.js',
+        html:   'src/pages/**/*.html',
+        js:     'src/js/*.js',
         style:  'src/style/main.scss',
         img:    'src/img/**/*.*',
         fonts:  'src/fonts/**/*.*'
@@ -58,8 +46,9 @@ var gulp = require('gulp'),  // подключаем Gulp
     uglify = require('gulp-uglify'), // модуль для минимизации JavaScript
     cache = require('gulp-cache'), // модуль для кэширования
     imagemin = require('gulp-imagemin'), // плагин для сжатия PNG, JPEG, GIF и SVG изображений
-    jpegrecompress = require('imagemin-jpeg-recompress'), // плагин для сжатия jpeg	
-    pngquant = require('imagemin-pngquant'), // плагин для сжатия png
+    imageminMozjpeg = require('imagemin-mozjpeg'), // плагин для сжатия jpeg
+    imageminOptipng = require('imagemin-optipng'), // плагин для сжатия png
+    imageminSvgo = require('imagemin-svgo'), // плагин для сжатия svg
     rimraf = require('gulp-rimraf'), // плагин для удаления файлов и каталогов
     rename = require('gulp-rename');
 
@@ -85,9 +74,18 @@ gulp.task('css:build', function () {
         .pipe(plumber()) // для отслеживания ошибок
         .pipe(sourcemaps.init()) // инициализируем sourcemap
         .pipe(sass()) // scss -> css
-        .pipe(autoprefixer({ // добавим префиксы
-            browsers: autoprefixerList
-        }))
+        .pipe(autoprefixer()) // добавим префиксы
+        .pipe(gulp.dest(path.build.css))
+        .pipe(webserver.reload({ stream: true })); // перезагрузим сервер
+});
+
+// сбор стилей
+gulp.task('css:build:min', function () {
+    return gulp.src(path.src.style) // получим main.scss
+        .pipe(plumber()) // для отслеживания ошибок
+        .pipe(sourcemaps.init()) // инициализируем sourcemap
+        .pipe(sass()) // scss -> css
+        .pipe(autoprefixer()) // добавим префиксы
         .pipe(gulp.dest(path.build.css))
         .pipe(rename({ suffix: '.min' }))
         .pipe(cleanCSS()) // минимизируем CSS
@@ -98,6 +96,15 @@ gulp.task('css:build', function () {
 
 // сбор js
 gulp.task('js:build', function () {
+    return gulp.src(path.src.js) // получим файл main.js
+        .pipe(plumber()) // для отслеживания ошибок
+        .pipe(rigger()) // импортируем все указанные файлы в main.js
+        .pipe(gulp.dest(path.build.js))
+        .pipe(webserver.reload({ stream: true })); // перезагрузим сервер
+});
+
+// сбор js
+gulp.task('js:build:min', function () {
     return gulp.src(path.src.js) // получим файл main.js
         .pipe(plumber()) // для отслеживания ошибок
         .pipe(rigger()) // импортируем все указанные файлы в main.js
@@ -119,20 +126,20 @@ gulp.task('fonts:build', function () {
 // обработка картинок
 gulp.task('image:build', function () {
     return gulp.src(path.src.img) // путь с исходниками картинок
-        .pipe(cache(imagemin([ // сжатие изображений
-            imagemin.gifsicle({ interlaced: true }),
-            jpegrecompress({
-                progressive: true,
-                max: 90,
-                min: 80
-            }),
-            pngquant(),
-            imagemin.svgo({ plugins: [{ removeViewBox: false }] })
-        ])))
-        .pipe(gulp.dest(path.build.img)); // выгрузка готовых файлов
+        .pipe(cache(
+            imagemin([ // сжатие изображений
+                imagemin.gifsicle({ interlaced: true }),
+                imageminMozjpeg({
+                    progressive: true,
+                    quality: 70
+                }),
+                imageminOptipng(),
+                imageminSvgo({ plugins: [{removeViewBox: false}] })
+            ])
+        )).pipe(gulp.dest(path.build.img)); // выгрузка готовых файлов
 });
 
-// удаление каталога build 
+// удаление каталога build
 gulp.task('clean:build', function () {
     return gulp.src(path.clean, { read: false })
         .pipe(rimraf());
@@ -151,6 +158,19 @@ gulp.task('build',
             'css:build',
             'js:build',
             'fonts:build',
+            'image:build',
+        )
+    )
+);
+
+// сборка минифицированой версии
+gulp.task('build:min',
+    gulp.series('clean:build',
+        gulp.parallel(
+            'html:build',
+            'css:build:min',
+            'js:build:min',
+            'fonts:build',
             'image:build'
         )
     )
@@ -168,5 +188,5 @@ gulp.task('watch', function () {
 // задача по умолчанию
 gulp.task('default', gulp.series(
     'build',
-    gulp.parallel('webserver','watch')      
+    gulp.parallel('webserver','watch')
 ));
