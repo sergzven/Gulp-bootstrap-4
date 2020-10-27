@@ -6,22 +6,30 @@ var path = {
         html:   'build/',
         js:     'build/js/',
         css:    'build/css/',
-        img:    'build/img/',
-        fonts:  'build/fonts/'
+        img:    'build/images/',
+        fonts:  'build/fonts/',
+        vendor: 'build/js/vendor'
     },
     src: {
         html:   'src/pages/**/*.html',
         js:     'src/js/*.js',
         style:  'src/style/main.scss',
-        img:    'src/img/**/*.*',
-        fonts:  'src/fonts/**/*.*'
+        img:    'src/images/**/*.*',
+        fonts:  'src/fonts/**/*.*',
+        config: ['src/*.xml', 'src/*.json'],
+        vendor: [
+            'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/popper.js/dist/umd/index.min.js',
+            'node_modules/bootstrap/dist/js/bootstrap.min.js'
+        ]
     },
     watch: {
-        html:   'src/**/*.html',
+        html:   'src/pages/**/*.html',
         js:     'src/js/**/*.js',
         css:    'src/style/**/*.scss',
-        img:    'src/img/**/*.*',
-        fonts:  'srs/fonts/**/*.*'
+        img:    'src/images/**/*.*',
+        fonts:  'srs/fonts/**/*.*',
+        config: ['src/*.xml', 'src/*.json']
     },
     clean: './build/*'
 };
@@ -34,16 +42,24 @@ var config = {
     notify: false
 };
 
+/* Helpers */
+var sortVendors = function (arr) {
+    return arr.map(function (item) {return item.slice(item.lastIndexOf('/') + 1)})
+}
+
 /* подключаем gulp и плагины */
 var gulp = require('gulp'),  // подключаем Gulp
     webserver = require('browser-sync'), // сервер для работы и автоматического обновления страниц
+    order = require('gulp-order'), // модуль для сортировки файлов
+    concat = require('gulp-concat'), // модуль для объединения нескольких файлов в один
+    babel = require('gulp-babel'), //convert to es5 with babel
     plumber = require('gulp-plumber'), // модуль для отслеживания ошибок
     rigger = require('gulp-rigger'), // модуль для импорта содержимого одного файла в другой
     sourcemaps = require('gulp-sourcemaps'), // модуль для генерации карты исходных файлов
     sass = require('gulp-sass'), // модуль для компиляции SASS (SCSS) в CSS
     autoprefixer = require('gulp-autoprefixer'), // модуль для автоматической установки автопрефиксов
     cleanCSS = require('gulp-clean-css'), // плагин для минимизации CSS
-    uglify = require('gulp-uglify'), // модуль для минимизации JavaScript
+    uglify = require('gulp-uglify-es').default, // модуль для минимизации JavaScript
     cache = require('gulp-cache'), // модуль для кэширования
     imagemin = require('gulp-imagemin'), // плагин для сжатия PNG, JPEG, GIF и SVG изображений
     imageminMozjpeg = require('imagemin-mozjpeg'), // плагин для сжатия jpeg
@@ -59,11 +75,27 @@ gulp.task('webserver', function () {
     webserver(config);
 });
 
+gulp.task('vendor', function () {
+    return gulp.src(path.src.vendor)
+        .pipe(gulp.dest((path.build.vendor)))
+        .pipe(order(sortVendors(path.src.vendor))) //sort vendor files as they are ordered in src list
+        .pipe(concat('vendors.js'))
+        .pipe(gulp.dest(path.build.vendor));
+});
+
 // сбор html
 gulp.task('html:build', function () {
     return gulp.src(path.src.html) // выбор всех html файлов по указанному пути
         .pipe(plumber()) // отслеживание ошибок
         .pipe(rigger()) // импорт вложений
+        .pipe(gulp.dest(path.build.html)) // выкладывание готовых файлов
+        .pipe(webserver.reload({ stream: true })); // перезагрузка сервера
+});
+
+
+// сбор XML, JSON конфига
+gulp.task('config:build', function () {
+    return gulp.src(path.src.config) // выбор всех html файлов по указанному пути
         .pipe(gulp.dest(path.build.html)) // выкладывание готовых файлов
         .pipe(webserver.reload({ stream: true })); // перезагрузка сервера
 });
@@ -97,6 +129,7 @@ gulp.task('css:build:min', function () {
 // сбор js
 gulp.task('js:build', function () {
     return gulp.src(path.src.js) // получим файл main.js
+        .pipe(babel({presets: ['@babel/env']})) //convert to es5 with babel
         .pipe(plumber()) // для отслеживания ошибок
         .pipe(rigger()) // импортируем все указанные файлы в main.js
         .pipe(gulp.dest(path.build.js))
@@ -106,6 +139,7 @@ gulp.task('js:build', function () {
 // сбор js
 gulp.task('js:build:min', function () {
     return gulp.src(path.src.js) // получим файл main.js
+        .pipe(babel({presets: ['@babel/env']})) //convert to es5 with babel
         .pipe(plumber()) // для отслеживания ошибок
         .pipe(rigger()) // импортируем все указанные файлы в main.js
         .pipe(gulp.dest(path.build.js))
@@ -154,11 +188,13 @@ gulp.task('cache:clear', function () {
 gulp.task('build',
     gulp.series('clean:build',
         gulp.parallel(
+            'vendor',
             'html:build',
             'css:build',
             'js:build',
             'fonts:build',
             'image:build',
+            'config:build'
         )
     )
 );
@@ -167,11 +203,13 @@ gulp.task('build',
 gulp.task('build:min',
     gulp.series('clean:build',
         gulp.parallel(
+            'vendor',
             'html:build',
             'css:build:min',
             'js:build:min',
             'fonts:build',
-            'image:build'
+            'image:build',
+            'config:build'
         )
     )
 );
@@ -183,6 +221,7 @@ gulp.task('watch', function () {
     gulp.watch(path.watch.js, gulp.series('js:build'));
     gulp.watch(path.watch.img, gulp.series('image:build'));
     gulp.watch(path.watch.fonts, gulp.series('fonts:build'));
+    gulp.watch(path.watch.config, gulp.series('config:build'));
 });
 
 // задача по умолчанию

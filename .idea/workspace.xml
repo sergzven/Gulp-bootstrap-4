@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a944d090-11d4-476d-b3d6-b7ccd0c14975" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gulpfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/gulpfile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/custom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style/custom.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/custom.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/template/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/template/footer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/template/head.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/template/head.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,8 +29,49 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="js.buildTools.gulp.gulp_package_dir" value="$PROJECT_DIR$/node_modules/gulp" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../NYPost" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="js.build_tools.gulp">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="build" type="js.build_tools.gulp" temporary="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile>$PROJECT_DIR$/gulpfile.js</gulpfile>
+      <tasks>
+        <task>build</task>
+      </tasks>
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="default" type="js.build_tools.gulp" temporary="true">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile>$PROJECT_DIR$/gulpfile.js</gulpfile>
+      <tasks>
+        <task>default</task>
+      </tasks>
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gulp.js.default" />
+        <item itemvalue="Gulp.js.build" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -31,7 +81,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1603714790173</updated>
-      <workItem from="1603714792089" duration="713000" />
+      <workItem from="1603714792089" duration="1601000" />
+      <workItem from="1603830256513" duration="2149000" />
     </task>
     <servers />
   </component>
@@ -39,26 +90,30 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1603715253532">
+    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1603832406488">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1603715253532" />
-    <state width="1899" height="433" key="GridCell.Tab.0.bottom" timestamp="1603715404469">
+    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1603832406488" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1603716392085">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="433" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603715404469" />
-    <state width="1899" height="433" key="GridCell.Tab.0.center" timestamp="1603715404469">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1603716392085" />
+    <state width="1899" height="236" key="GridCell.Tab.0.bottom" timestamp="1603831798032">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="433" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603715404469" />
-    <state width="1899" height="433" key="GridCell.Tab.0.left" timestamp="1603715404469">
+    <state width="1899" height="236" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603831798032" />
+    <state width="1899" height="236" key="GridCell.Tab.0.center" timestamp="1603831798032">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="433" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603715404469" />
-    <state width="1899" height="433" key="GridCell.Tab.0.right" timestamp="1603715404469">
+    <state width="1899" height="236" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603831798032" />
+    <state width="1899" height="236" key="GridCell.Tab.0.left" timestamp="1603831798032">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="433" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603715404469" />
+    <state width="1899" height="236" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603831798032" />
+    <state width="1899" height="236" key="GridCell.Tab.0.right" timestamp="1603831798032">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="236" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603831798032" />
     <state x="461" y="165" key="SettingsEditor" timestamp="1603714947804">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
