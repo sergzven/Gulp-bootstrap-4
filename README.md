@@ -1,20 +1,16 @@
-## За основу взят проект Александра Мальцева (itchief) [Gulp project bootstrap 4](https://itchief.ru/lessons/bootstrap/build-project-with-gulp) (версия 2.2.2)
+## Environment for developing web projects on Bootstrap 4 with Gulp task runner
 
-## Окружение для разработки веб-проектов на Bootstrap 4
-Готовое окружение для разработки фронтенд составляющей сайтов и интерфейсов админок на Bootstrap 4.
-
-## Требования к окружению
-Для создания окружения необходимо иметь следующие установленные инструменты:
+## Environment requirements
 -	Node.js (10+)
 -	Git
 -	Gulp
 
-Если у вас данных инструментов нет, то их необходимо установить.
+If you do not have these tools you have to install tham first.
 
-## Установки зависимостей проекта
-Для установки зависимостей проекта необходимо в командной строке ввести команды:
+## Project dependences instaltion
+To install all project dependences you have to run next command in the terminal:
 -	`npm install`
 
-## Как использовать окружение
-Обычный режим: в командной строке ввести `gulp`.
-Выборочная сборка: в командной строке ввести необходимую задачу. Например, для сборки CSS необходимо ввести команду `css:build`. Список всех доступных задач можно посмотреть в файле gulpfile.js.
+## How to use this environment
+To run default gulp task use command 'gulp default' in the terminal or just 'gulp'.
+The other secific gulp task you can find in project configuration file: gulpfile.js.
