@@ -2,7 +2,7 @@
 
 ## Environment requirements
 If you do not have these tools you have to install tham first.
--	Node.js - (10+) https://nodejs.org/uk/download/
+-	Node.js (v.10+) - https://nodejs.org/uk/download/
 -	Git - https://git-scm.com/downloads
 -	Gulp - if Node.js is installed then run in the terminal 
     `npm i --global gulp-cli` 
