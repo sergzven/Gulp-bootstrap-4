@@ -1,11 +1,11 @@
 ## Environment for developing web projects on Bootstrap 4 with Gulp task runner
 
 ## Environment requirements
--	Node.js (10+)
--	Git
--	Gulp
-
 If you do not have these tools you have to install tham first.
+-	Node.js - (10+) https://nodejs.org/uk/download/
+-	Git - https://git-scm.com/downloads
+-	Gulp - if Node.js is installed then run in the terminal 
+    `npm i --global gulp-cli` 
 
 ## Project dependences instaltion
 To install all project dependences you have to run next command in the terminal:
